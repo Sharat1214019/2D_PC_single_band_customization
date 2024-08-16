@@ -35,7 +35,7 @@ def contour_plot_full(x, y, z, map_color='winter'):
     ax.yaxis.set_ticks_position('left')
     ax.tick_params(direction='out', length=8, width=2, axis='both')
     ax.set_aspect('equal')
-    ax.set_axis_off()
+    #ax.set_axis_off()
     plt.show()
     return 
 
@@ -58,7 +58,7 @@ def surface_plot_single_band(x, y, z, map_color):
     ax.set_xlim([-1, 1])
     ax.set_ylim([-1, 1])
     ax.set_zlim([0, 1])
-    ax.set_axis_off()
+    #ax.set_axis_off()
     plt.show()
     return
 
@@ -69,12 +69,67 @@ qx, qy = np.meshgrid(np.linspace(-np.pi, np.pi, grid_size), np.linspace(-np.pi, 
 target_omega = lambda x, y: np.sqrt(1/2) * np.sqrt(5-np.cos(x)-np.cos(y)-np.cos(2*x)-np.cos(2*y)-np.cos(1*x+3*y))
 kxy = np.load('Case I - Fig 2(a),(b)/kxy_case_i.npy')
 knxy = np.load('Case I - Fig 2(a),(b)/knxy_case_i.npy')
-
+# Case II, Figure - 2(c),(d)
+'''
+target_omega = lambda x, y: ( - (abs(x) - np.pi)**2 - (abs(y) - np.pi)**2 + 2*np.pi**2 )
+kxy = np.load('Case II - Fig 2(c),(d)/kxy_case_ii.npy')
+knxy = np.load('Case II - Fig 2(c),(d)/knxy_case_ii.npy')
+'''
+# Case III, Figure - 2(e),(f)
+'''
+target_omega = 'Case III - Fig 2(e),(f)/target_case_iii.txt'
+kxy = np.load('Case III - Fig 2(e),(f)/kxy_case_iii.npy')
+knxy = np.load('Case III - Fig 2(e),(f)/knxy_case_iii.npy')
+'''
+# Case IV, Figure - 2(g), (h)
+'''
+target_omega = 'Case IV - Fig 2(g),(h)/target_case_iv.txt'
+kxy = np.load('Case IV - Fig 2(g),(h)/kxy_case_iv.npy')
+knxy = np.load('Case IV - Fig 2(g),(h)/knxy_case_iv.npy')
+'''
+# Case VI, Figure - 6(c), (d)
+'''
+target_omega = 'Case VI - Fig 6(c),(d)/target_case_vi.txt'
+kxy = np.load('Case VI - Fig 6(c),(d)/kxy_case_vi.npy')
+knxy = np.load('Case VI - Fig 6(c),(d)/knxy_case_vi.npy')
+'''  
+# Case VII, Figure - 6(e), (f)
+'''
+target_omega = lambda x, y: np.sqrt(2-np.cos(np.sqrt(x**2 + y**2))-np.cos(2 * np.sqrt(x**2 + y**2)))
+kxy = np.load('Case VII - Fig 6(e),(f)/kxy_case_vii.npy')
+knxy = np.load('Case VII - Fig 6(e),(f)/knxy_case_vii.npy')
+'''
+# Case VIII, Figure - 6(g), (h)
+'''
+target_omega = lambda x, y: (x**2 + y**2 < (np.pi/2)**2)*np.sqrt(x**2 + y**2) + (x**2 + y**2 >= (np.pi/2)**2)*np.pi/2
+kxy = np.load('Case VIII - Fig 6(g),(h)/kxy_case_viii.npy')
+knxy = np.load('Case VIII - Fig 6(g),(h)/knxy_case_viii.npy')
+'''
+# Case IX, Figure - 8(a), (b)
+'''
+target_omega = np.load('Case IX - Fig 8(a),(b)/target_case_ix.npy')
+kxy = np.load('Case IX - Fig 8(a),(b)/kxy_case_ix.npy')
+knxy = np.load('Case IX - Fig 8(a),(b)/knxy_case_ix.npy')
+'''
+# Case X, Figure - 8(c), (d)
+'''
+target_omega = np.load('Case X - Fig 8(c),(d)/target_case_x.npy')
+kxy = np.load('Case X - Fig 8(c),(d)/kxy_case_x.npy')
+knxy = np.load('Case X - Fig 8(c),(d)/knxy_case_x.npy')
+'''
 nx, ny = kxy.shape[0] - 1, kxy.shape[1] - 1
-#achieved_omega = lambda x, y: omega_theory_mono(x, y, nx, ny, kxy, knxy)
+achieved_omega = lambda x, y: omega_theory_mono(x, y, nx, ny, kxy, knxy)
 
+# For analytical target dispersion - Case I, II, VII, VIII
 contour_plot_full(qx, qy, target_omega(qx,qy), 'coolwarm')
 surface_plot_single_band(qx, qy, target_omega(qx,qy),'coolwarm')
-#contour_plot_full(qx, qy, achieved_omega(qx,qy),'coolwarm')
-#surface_plot_single_band(qx, qy, (achieved_omega(qx,qy)),'coolwarm')
+contour_plot_full(qx, qy, achieved_omega(qx,qy),'coolwarm')
+surface_plot_single_band(qx, qy, (achieved_omega(qx,qy)),'coolwarm')
 
+# For numerical target dispersion - Case I, II, VII, VIII
+'''
+contour_plot_full(qx, qy, target_omega, 'coolwarm')
+surface_plot_single_band(qx, qy, target_omega,'coolwarm')
+contour_plot_full(qx, qy, achieved_omega(qx,qy),'coolwarm')
+surface_plot_single_band(qx, qy, (achieved_omega(qx,qy)),'coolwarm')
+'''
